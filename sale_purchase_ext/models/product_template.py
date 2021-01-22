@@ -7,8 +7,8 @@ _logger = logging.getLogger(__name__)
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    is_create_pd_invoice = fields.Boolean('Create Cheque?', default=False, help="It will create vendor bill automatically whenever this product sold.")
-    pd_cheque_type = fields.Selection([('batch', 'Batch'), ('individual', 'Individual')], string="Cheque", default='batch')
+    is_create_pd_invoice = fields.Boolean('Create Check?', default=False, help="It will create vendor bill automatically whenever this product sold.")
+    pd_check_type = fields.Selection([('batch', 'Batch'), ('individual', 'Individual')], string="Check Type", default='batch')
     pd_partner_id = fields.Many2one("res.partner", string="For Vendor")
 
     @api.onchange('is_create_pd_invoice')

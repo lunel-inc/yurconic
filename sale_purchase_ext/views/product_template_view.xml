@@ -10,7 +10,7 @@
                     <group>
                         <field name="is_create_pd_invoice"/>
                         <field name="pd_partner_id" options="{'no_create_edit': True, 'no_open': True}" domain="[('supplier_rank','&gt;', 0)]" attrs="{'invisible': [('is_create_pd_invoice','=',False)], 'required': [('is_create_pd_invoice','=', True)]}" />
-                        <field name="pd_cheque_type" attrs="{'invisible': [('is_create_pd_invoice','=',False)], 'required': [('is_create_pd_invoice','=', True)]}"/>
+                        <field name="pd_check_type" attrs="{'invisible': [('is_create_pd_invoice','=',False)], 'required': [('is_create_pd_invoice','=', True)]}"/>
                     </group>
                     <group/>
                 </group>
