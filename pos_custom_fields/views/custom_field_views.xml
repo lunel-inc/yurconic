@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QUESTIONS -->
+        <record model="ir.ui.view" id="custom_field_form">
+            <field name="name">Form view for custom field</field>
+            <field name="model">custom.field</field>
+            <field name="arch" type="xml">
+                <form string="Custom Field" create="false">
+                    <field name="product_id" invisible="1"/>
+                    <field name="is_page" invisible="1"/>
+                    <field name="sequence" invisible="1"/>
+                    <sheet>
+                        <div class="oe_title" style="width: 100%;">
+                            <label for="title" string="Section" attrs="{'invisible': [('is_page', '=', False)]}"/>
+                            <label for="title" string="Question" attrs="{'invisible': [('is_page', '=', True)]}"/>
+                            <field name="title" colspan="4"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="field_type" widget="radio" required="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Answers" name="answers">
+                                <group>
+                                    <field name="custom_field_answer_ids" string="Answers" context="{'default_product_id': active_id}"
+                                           attrs="{'invisible': [('field_type', 'not in', ['simple_choice', 'multiple_choice'])]}">
+                                        <tree editable="bottom">
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="value" string="Choices"/>
+                                        </tree>
+                                    </field>
+                                    <field name="add_product_id" domain="[('available_in_pos', '=', True)]"
+                                           attrs="{'invisible': [('field_type', 'not in', ['add_product'])],'required': [('field_type', 'in', ['add_product'])]}"/>
+
+                                    <field name="is_custom_qty" attrs="{'invisible': [('field_type', 'not in', ['add_product'])]}"/>
+                                </group>
+                            </page>
+                            <page string="Options" name="options">
+                                <group string="Constraints">
+                                    <group>
+                                        <field name="constr_mandatory" string="Mandatory Answer"/>
+                                        <field name="constr_error_msg" attrs="{'invisible': [('constr_mandatory', '=', False)]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

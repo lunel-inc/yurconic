@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="CustomFieldPopup" owl="1">
+        <div class="custom_popup">
+            <div role="dialog" class="modal-dialog">
+                <div class="lunel">
+                    <div class="popup popup-lg">
+                        <header class="title">
+                            <t t-esc="props.title"/>
+                        </header>
+
+                        <t t-call="custom_field_popup_body"/>
+
+                        <div class="footer">
+                            <div class="button confirm" t-on-click="confirm">
+                                <t t-esc="props.confirmText"/>
+                            </div>
+                            <div class="button cancel" t-on-click="cancel">
+                                <t t-esc="props.cancelText"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="custom_field_popup_body" owl="1">
+        <section class="client-details edit">
+            <div class="client-details-box clearfix">
+                <div class="client-details-left">
+                    <t t-foreach="props.customFields" t-as="customField">
+                        <!--Single line text box-->
+                        <t t-if="customField.field_type == 'char_box' and customField.custom_field_answer_ids"><t t-call="question_single_line_text_box"/></t>
+                        <!--Added Product-->
+                        <t t-if="customField.field_type == 'add_product'"><t t-call="add_product"/></t>
+                        <!--Multiple Choice: Multiple answers allowed-->
+                        <t t-if="customField.field_type == 'multiple_choice' and customField.custom_field_answer_ids"><t t-call="question_multiple_choice"/></t>
+                        <!--Multiple Choice: Single answers allowed-->
+                        <t t-if="customField.field_type == 'simple_choice' and customField.custom_field_answer_ids"><t t-call="question_simple_choice"/></t>
+                    </t>
+                </div>
+            </div>
+        </section>
+    </t>
+
+    <t t-name="question_single_line_text_box" owl="1">
+        <div class="grey-border-bottom">
+            <div class="client-detail">
+                <span class="label"><t t-esc="customField.title"/></span>
+                <input class="detail client-address-street" t-att-name="customField.title" t-att-product_id="customField.product_id[0]"
+                       t-on-change="captureChange" t-att-placeholder="customField.title"/>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="add_product" owl="1">
+        <div class="grey-border-bottom">
+            <div class="client-detail">
+                <span class="label"><t t-esc="customField.title"/></span>
+                <select class="detail client-address-states needsclick" t-att-name="customField.title" t-on-change="captureChange" t-att-disabled="customField.constr_mandatory">
+                    <option value="no">No</option>
+                    <option value="yes" t-att-selected="customField.constr_mandatory">Yes</option>
+                </select>
+                <t t-if="customField.is_custom_qty">
+                    <span class="label">Qty</span>
+                    <input class="detail client-address-street" type="number" t-on-change="captureChange" value="1" name="qty_update" style="width:10%; padding-right:5px;"
+                           t-att-product_id="customField.add_product_id[0] or customField.product_id[0]"/>
+                </t>
+                <t t-if="customField.add_product_id[2]">
+                    <t t-set="props.customFields" t-value="customField.add_product_id[2]"/>
+                    <t t-call="custom_field_popup_body"/>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="question_multiple_choice" owl="1">
+        <div class="row grey-border-bottom">
+            <span class="label"><t t-esc="customField.title"/></span>
+            <t t-foreach="customField.custom_field_answer_ids" t-as="custom_field_checkbox">
+                <span class="label_question"><t t-esc="custom_field_checkbox.value"/></span>
+                <input type="checkbox" class="custom_checkbox" t-on-change="captureChange" t-att-product_id="customField.product_id[0]"
+                       style="width:15px !important; min-height: 0px; padding: 10px; box-shadow: 0px 0px 0px 1px rgb(220 220 220 / 0%) inset;"
+                       t-att-name="customField.title" t-att-choise="custom_field_checkbox.value"/>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="question_simple_choice" owl="1">
+        <div class="grey-border-bottom">
+            <span class="label"><t t-esc="customField.title"/></span>
+            <select class="detail client-address-states needsclick" t-att-name="customField.title" t-on-change="captureChange" t-att-product_id="customField.product_id[0]">
+                <option value="">None</option>
+                <t t-foreach="customField.custom_field_answer_ids" t-as="custom_field_checkbox" t-key="custom_field_checkbox.id">
+                    <option t-att-value="custom_field_checkbox.value">
+                        <t t-esc="custom_field_checkbox.value"/>
+                    </option>
+                </t>
+            </select>
+        </div>
+    </t>
+
+</templates>
