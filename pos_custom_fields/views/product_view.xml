@@ -12,14 +12,14 @@
                         <field name="custom_field_ids" nolabel="1" mode="tree,form,kanban" context="{'default_product_id': active_id}">
                             <tree>
                                 <field name="sequence" widget="handle"/>
-                                <field name="title" />
+                                <field name="title"/>
                                 <field name="field_type"/>
                                 <field name="is_page" invisible="1"/>
                                 <!--                                <field name="questions_selection" invisible="1"/>-->
                                 <field name="product_id" invisible="1"/>
                                 <!--                                <field name="triggering_question_id" invisible="1"/>-->
                                 <control>
-                                    <create name="add_section_control" string="Add a section" context="{'default_is_page': True}"/>
+<!--                                    <create name="add_section_control" string="Add a section" context="{'default_is_page': True}"/>-->
                                     <create name="add_question_control" string="Add a question"/>
                                 </control>
                             </tree>

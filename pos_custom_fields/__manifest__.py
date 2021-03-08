@@ -12,6 +12,7 @@
         'views/product_view.xml',
         'views/custom_field_views.xml',
         'views/point_of_sale_assets.xml',
+        'views/pos_custom_field_views.xml',
 
     ],
     'qweb': ['static/src/xml/Popups/CustomFieldPopup.xml'],

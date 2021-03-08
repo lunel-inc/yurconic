@@ -3,38 +3,31 @@ odoo.define('pos_custom_fields.ProductScreen', function (require) {
 
     const ProductScreen = require('point_of_sale.ProductScreen');
     const Registries = require('point_of_sale.Registries');
+    var core = require('web.core');
+    var _t = core._t;
 
     const CustomProductScreen = ProductScreen => class extends ProductScreen {
-
-        saveChanges() {
-            let processedChanges = {};
-            for (let [key, value] of Object.entries(this.changes)) {
-                if (this.intFields.includes(key)) {
-                    processedChanges[key] = parseInt(value) || false;
-                } else {
-                    processedChanges[key] = value;
-                }
-            }
-            if ((!this.props.partner.name && !processedChanges.name) ||
-                processedChanges.name === '' ){
-                return this.showPopup('ErrorPopup', {
-                  title: _('A Customer Name Is Required'),
-                });
-            }
-            processedChanges.id = this.props.partner.id || false;
-            this.trigger('save-changes', { processedChanges });
-        }
 
         async _clickProduct(event) {
             if (event.detail.custom_field_ids.length > 0) {
                 const customFields = this._getCustomFields(event.detail);
-                const {confirmed} = await this.showPopup('CustomFieldPopup', {
+                let { confirmed, payload } = await this.showPopup('CustomFieldPopup', {
                     title: this.env._t('Please Fill Form'),
                     customFields: customFields,
+                    selected_product:event.detail,
                 });
                 if (confirmed) {
+/*                    if (!this.check_error_fields({})) {
+                        this.update_status('error', _t("Please fill in the form correctly."));
+//                        this.props.resolve({ confirmed: false});
+//                        return await confirmed;
+//                        Promise.reject();
+                        return;
+                    }*/
+                    this.currentOrder.add_product(event.detail, {
+                        quantity: 1,
+                    });
                 }
-                return;
             } else {
                 return super._clickProduct(...arguments);
             }

@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-
-
-from odoo import fields, models, _
+from odoo import fields, models
 
 
 class CustomFieldAnswer(models.Model):

@@ -41,7 +41,7 @@
                                 <group string="Constraints">
                                     <group>
                                         <field name="constr_mandatory" string="Mandatory Answer"/>
-                                        <field name="constr_error_msg" attrs="{'invisible': [('constr_mandatory', '=', False)]}"/>
+<!--                                        <field name="constr_error_msg" attrs="{'invisible': [('constr_mandatory', '=', False)]}"/>-->
                                     </group>
                                 </group>
                             </page>
