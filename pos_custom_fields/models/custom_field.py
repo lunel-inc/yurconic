@@ -2,6 +2,7 @@
 
 import logging
 from odoo import fields, models, api, _
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -46,3 +47,10 @@ class CustomFields(models.Model):
     is_conditional = fields.Boolean(
         string='Conditional Display', copy=False, help="""If checked, this question will be displayed only 
         if the specified conditional answer have been selected in a previous question""")
+
+    @api.constrains('custom_field_answer_ids')
+    def _constraint_percentage(self):
+        for record in self:
+            if record.field_type == 'simple_choice' and len(record.custom_field_answer_ids.mapped('product_id')) and len(
+                    record.custom_field_answer_ids.mapped('product_id')) != len(record.custom_field_answer_ids):
+                raise UserError(_("Either select all product or don't select product in Custom Field: {}'s Answers!!!".format(record.title)))

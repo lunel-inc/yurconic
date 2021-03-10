@@ -93,7 +93,8 @@
                 <span class="label_question"><t t-esc="custom_field_checkbox.value"/></span>
                 <input type="checkbox" class="custom_checkbox client-address o_website_form_input" t-on-change="captureChange" t-att-product_id="customField.product_id[0]"
                        style="width:15px !important; min-height: 0px; padding: 10px; box-shadow: 0px 0px 0px 1px rgb(220 220 220 / 0%) inset;"
-                       t-att-name="customField.title" t-att-choice="custom_field_checkbox.value" t-att-required="customField.constr_mandatory"/>
+                       t-att-related_product_id="custom_field_checkbox.product_id[0]" t-att-name="customField.title" t-att-choice="custom_field_checkbox.value"
+                       t-att-required="customField.constr_mandatory"/>
             </t>
         </div>
     </t>
@@ -105,7 +106,7 @@
                     t-att-product_id="customField.product_id[0]">
                 <option value="">None</option>
                 <t t-foreach="customField.custom_field_answer_ids" t-as="custom_field_checkbox" t-key="custom_field_checkbox.id">
-                    <option t-att-value="custom_field_checkbox.value">
+                    <option t-att-value="custom_field_checkbox.value" t-att-related_product_id="custom_field_checkbox.product_id[0]">
                         <t t-esc="custom_field_checkbox.value"/>
                     </option>
                 </t>

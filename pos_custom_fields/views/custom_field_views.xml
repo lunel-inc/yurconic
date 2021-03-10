@@ -29,6 +29,7 @@
                                         <tree editable="bottom">
                                             <field name="sequence" widget="handle"/>
                                             <field name="value" string="Choices"/>
+                                            <field name="product_id" string="Product"/>
                                         </tree>
                                     </field>
                                     <field name="add_product_id" domain="[('available_in_pos', '=', True)]"
