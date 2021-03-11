@@ -41,7 +41,7 @@ class CustomFields(models.Model):
     #                                       domain=[('skipped', '=', False)], groups='survey.group_survey_user')
     custom_field_answer_ids = fields.One2many('custom.field.answer', 'custom_field_id', string='Custom Field Answer', copy=True,
                                               help='Labels used for proposed choices: simple choice, multiple choice and columns of matrix')
-    add_product_id = fields.Many2one('product.product', string='Select Product')
+    add_product_id = fields.Many2one('product.product', string='Select Product', domain="[('available_in_pos','=',True)]")
     is_custom_qty = fields.Boolean("Custom QTY?")
     # Conditional display
     is_conditional = fields.Boolean(
