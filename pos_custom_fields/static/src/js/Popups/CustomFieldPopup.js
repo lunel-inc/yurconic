@@ -113,7 +113,7 @@ odoo.define('pos_custom_fields.CustomFieldPopup', function (require) {
         }
 
         saveChanges() {
-            var form_valid, error_field_name = this.check_error_fields({})
+            const [form_valid, error_field_name] = this.check_error_fields({})
             if (!form_valid) {
                 this.update_status('error', _t("Please fill in the field <span style='color: #0a0a0a'>" + error_field_name + "</span> correctly."));
                 return;
@@ -181,7 +181,6 @@ odoo.define('pos_custom_fields.CustomFieldPopup', function (require) {
         }
 
         check_error_fields(error_fields) {
-            var self = this;
             var form_valid = true;
             var error_field_name = ''
             // Loop on all fields
@@ -204,23 +203,13 @@ odoo.define('pos_custom_fields.CustomFieldPopup', function (require) {
                 // Update field color if invalid or erroneous
                 $field.removeClass('o_has_error').find('.form-control, .custom-select').removeClass('is-invalid');
                 if (invalid_inputs.length || error_fields[field_name]) {
-                    $field.addClass('o_has_error').find('.form-control, .custom-select').addClass('is-invalid');
-                    if (_.isString(error_fields[field_name])) {
-                        $field.popover({
-                            content: error_fields[field_name],
-                            trigger: 'hover',
-                            container: 'body',
-                            placement: 'top'
-                        });
-                        // update error message and show it.
-                        $field.data("bs.popover").config.content = error_fields[field_name];
-                        $field.popover('show');
-                    }
+                    // $field.addClass('o_has_error').find('.form-control, .custom-select').addClass('is-invalid');
+                    $(invalid_inputs).closest('.s_pos_form_field').addClass('o_has_error')
                     form_valid = false;
                     error_field_name = field_name
                 }
             });
-            return form_valid, error_field_name;
+            return [form_valid, error_field_name]
         }
 
         update_status(status, message) {
@@ -228,8 +217,6 @@ odoo.define('pos_custom_fields.CustomFieldPopup', function (require) {
                 $($.find('.s_pos_form_field')).find('.s_website_form_send, .o_website_form_send')
                     .removeAttr('disabled').removeClass('disabled'); // !compatibility
             }
-            var $result = $('#error_msg'); // !compatibility
-            $result.replaceWith($('<span id="s_website_form_result" style="color: #ff0000;"><i class="fa fa-close mr4" style="padding: 20px;" role="img" aria-label="Error" title="Error"></i><span>' + message + '</span>'));
             if (status !== 'success') {
                 return false
             }

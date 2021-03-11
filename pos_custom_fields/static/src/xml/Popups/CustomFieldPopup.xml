@@ -13,7 +13,6 @@
                         <t t-call="custom_field_popup_body"/>
 
                         <div class="footer">
-                            <div id="error_msg"/>
                             <div class="button" t-on-click="trigger('click-save')">
                                 <t t-if="!env.isMobile">
                                     <i class="fa fa-floppy-o"/>
@@ -103,7 +102,7 @@
         <div class="grey-border-bottom s_pos_form_field">
             <span class="label"><t t-esc="customField.title"/></span>
             <select class="detail client-address needsclick o_website_form_input" t-att-name="customField.title" t-on-change="captureChange"
-                    t-att-product_id="customField.product_id[0]">
+                    t-att-product_id="customField.product_id[0]" t-att-required="customField.constr_mandatory">
                 <option value="">None</option>
                 <t t-foreach="customField.custom_field_answer_ids" t-as="custom_field_checkbox" t-key="custom_field_checkbox.id">
                     <option t-att-value="custom_field_checkbox.value" t-att-related_product_id="custom_field_checkbox.product_id[0]">
